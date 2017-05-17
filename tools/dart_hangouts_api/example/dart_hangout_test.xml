@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+<!-- Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License
+ -->
+
+  <ModulePrefs title="Dart Hangout Test">
+    <Require feature="rpc"/>
+    <Require feature="views"/>
+    <Require feature="locked-domain"/>
+  </ModulePrefs>
+  <Content type="html">
+    <![CDATA[
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Dart_hangout_test</title>
+    <link rel="stylesheet" href="//www.foldedsoft.at/plus/dart_hangout_test/dart_hangout_test.css">
+    <script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
+  </head>
+  <body>
+    <h1>Dart-Hangout-Test</h1>
+    <button id="button1">Button 1</button>
+    <button id="button2">Button 2</button>
+    <button id="button3">Button 3</button>
+    <button id="button4">Button 4</button>
+    <button id="button5">Button 5</button>
+    <div id="container">
+      <p id="text"></p>
+    </div>
+    <script type="application/dart" src="//www.foldedsoft.at/plus/dart_hangout_test/dart_hangout_test.dart"></script>
+    <script src="//www.foldedsoft.at/plus/dart_hangout_test/packages/browser/dart.js"></script>
+    <script src="//www.foldedsoft.at/plus/dart_hangout_test/packages/browser/interop.js"></script>
+  </body>
+</html>
+    ]]>
+  </Content>
+</Module>
+

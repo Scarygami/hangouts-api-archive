@@ -1,0 +1,14 @@
+name: drivethreedarthangoutapp
+version: 0.0.0-dev
+author: Gerwin Sturm <scarygami@gmail.com>
+description: Top Secret
+homepage: https://github.com/Scarygami/DriveThreeDartHangoutApp
+dependencies:
+  browser: any
+  js: any
+  google_oauth2_client: any
+  three: any
+  google_drive_v2_api: any
+  google_oauth2_v2_api: any
+  hangouts_api:
+    git: git://github.com/Scarygami/dart_hangouts_api.git

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Background Demo</title>
+    <link rel="stylesheet" type="text/css" href="background.css">
+    <script src="https://plus.google.com/talkgadget/apps/gadgets/js/rpc.js"></script>
+    <script src="https://plus.google.com/hangouts/_/api/v1/hangout.js"></script>
+    <script src="https://www.google.com/jsapi"></script>
+  </head>
+  <body>
+    <div id="background">
+      <h1>Custom background</h1>
+      <button id="pick">Select/upload photo</button><br>
+      <div id="controls" style="display: none;">
+        <img src="" id="current"><br>
+        Adjust Background<br>
+        Auto Adjustment <input id="auto" type="checkbox" checked="checked"> <input id="alpha" type="range" min="0" max="255" value="190" style="visibility: hidden;"><br><br>
+        <button id="hide">Remove background</button><br>
+      </div>
+    </div>
+    <script src="background.js"></script>
+  </body>
+</html>

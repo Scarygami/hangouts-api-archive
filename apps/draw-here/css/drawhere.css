@@ -1,0 +1,160 @@
+* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+.small { font-size: 0.8em; margin: 0; padding: 0;}
+
+html, body, #drawhere { height: 100%; width: 100%; margin: 0; padding: 0; }
+
+#dredit {
+  width: 300px; height: 100%; overflow-x: hidden; overflow-y: auto; position: relative; margin-left: 5px;
+  -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+}
+
+#drslider {
+  width: 10px; height: 100%; background-color: #CCC; position: absolute; top: 0px; left: 310px; cursor: e-resize;
+  -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+}
+
+#drwrapper {
+  width: 100%; height: 200px;
+  position: absolute; top: 5px; border: 1px solid black;
+}
+
+#drcanvas, #drawcanvas { width: 100%; height: 100%; position: absolute; border: 1px solid black; cursor: crosshair;}
+#drcanvas { z-index: 15; }
+#drawcanvas { z-index: 20; }
+#drawcanvas.dragging { border: 3px solid black;}
+#drcanvasback {
+  position: absolute;
+  width: 100%; height: 100%;
+  z-index: 5;
+  background-color: #CFC;
+  text-align: center;
+  padding-top: 70px;
+  font-size: 30px;
+  color: #CCC;
+}
+
+#drimagediv {
+  width: 100%; height: 100%;
+  position: absolute;
+  z-index: 10;
+  padding: 0;
+  text-align: center;
+}
+
+#drimage {
+  display: none;
+}
+
+#drtools { width: 100%; position: absolute; top: 250px; text-align: center; vertical-align: top;}
+
+.drtoolpart {
+  position: relative;
+  display: inline-block;
+  vertical-align: bottom;
+  text-align: left;
+}
+
+#drcredits { position: absolute; bottom: 0px; text-align: center; border-top: 1px solid gray; width: 100%;}
+
+.color { width: 30px; height: 30px; border: 1px solid black; cursor: pointer; color: rgba(0,0,0,0); margin: 0; padding: 0; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;}
+
+#drcursor { display: inline-block; width: 60px; height: 60px; border: 1px solid black; }
+
+.tool {
+  display: inline-block;
+  width: 28px; height: 28px;
+  background-image: url(../images/tools.png);
+  cursor: pointer;
+  border: 1px solid black;
+  background-color: #CCC;
+  border-radius: 3px;
+  box-shadow: inset -1px -1px 1px 1px #999;
+}
+.tool_selected { box-shadow: inset 1px 1px 1px 1px #999; background-color: #EEE;}
+.tool_paint { background-position: 0px 0px; }
+.tool_line { background-position: -24px 0px; }
+.tool_erase { background-position: -48px 0px; }
+.tool_circle { background-position: 0px -24px; }
+.tool_square { background-position: -24px -24px; }
+.tool_undo { background-position: -48px -24px; }
+.tool_clear { background-position: -73px 0px; }
+.tool_showimg { background-position: -72px -24px; }
+.tool_hideimg { background-position: -96px -24px; box-shadow: inset 1px 1px 1px 1px #999; background-color: #EEE;}
+.tool_disabled { opacity: 0.3; }
+
+.fund { opacity: 0.4; }
+.fund:hover { opacity: 1;}
+
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+#drsize {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 100px;
+  height: 20px;
+  margin: 0; padding: 0;
+  margin-top: 3px;
+  background-image: url(../images/slider.png);
+}
+
+#drsize::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 3px;
+  height: 30px;
+  background-color: black;
+}
+
+#drsize::-moz-slider-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 3px;
+  height: 30px;
+  background-color: black;
+}
+
+.opacity {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 100px;
+  height: 20px;
+  margin: 0; padding: 0;
+  margin-top: 3px;
+  background: -moz-linear-gradient(left, #ffffff 0%, #000000 100%);
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffffff), color-stop(100%,#000000));
+  background: -webkit-linear-gradient(left, #ffffff 0%,#000000 100%);
+  background: linear-gradient(to right, #ffffff 0%,#000000 100%);
+}
+
+.opacity::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 3px;
+  height: 30px;
+  background-color: black;
+}
+
+.opacity::-moz-slider-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 3px;
+  height: 30px;
+  background-color: black;
+}
+
+#example, #example_background {
+  width: 100px;
+  height: 70px;
+  text-align: center;
+}
+
+#example {
+  position: absolute;
+  top: 0; left: 0;
+}
+
+#example_background {
+  padding-top: 25px;
+}

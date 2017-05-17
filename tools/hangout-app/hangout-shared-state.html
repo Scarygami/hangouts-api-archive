@@ -1,0 +1,116 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`hangout-shared-state` allows access to one key/value pair of the shared state
+in a hangout app.
+
+You can pass in anything as `value` that can be transformed into a string via
+`JSON.stringify` because, the Hangouts API only allows string-string pairs
+for the shared state. The element will try to encode/decode the value accordingly.
+
+Note that if value is an object the shared state will only be updated when value
+is a different instance. Changes on object properties won't trigger the update.
+
+##### Example
+
+    <hangout-shared-state name="count" value="{{count}}"></hangout-shared-state>
+
+@element hangout-shared-state
+@blurb Element for access to the shared state of a Hangout app.
+@status alpha
+@homepage https://scarygami.github.io/hangout-app
+@demo
+-->
+
+<dom-module id="hangout-shared-state">
+  <script>
+    Polymer({
+      is: 'hangout-shared-state',
+
+      properties: {
+
+        /**
+         * Name of the key to access
+         */
+        name: String,
+
+        /**
+         * Value of the data in the shared state, can be used for two-way binding
+         */
+        value: {
+          type: Object,
+          notify: true,
+          observer: '_valueChanged'
+        },
+
+        _currentValue: Object,
+
+        _loaded: Boolean
+      },
+
+      _valueChanged: function () {
+        if (!this._loaded) {
+          return;
+        }
+        if (this.value !== this._currentValue) {
+          this._currentValue = this.value;
+          if (this.value === null || this.value === undefined) {
+            gapi.hangout.data.clearValue(this.name);
+          } else {
+            gapi.hangout.data.setValue(this.name, JSON.stringify(this.value));
+          }
+        }
+      },
+
+      attached: function () {
+        var tmp;
+        if (!gapi || !gapi.hangout || !gapi.hangout.isApiReady()) {
+          throw 'Hangouts API not ready...';
+        }
+        this._currentValue = this.value;
+        this.name = this.name || '';
+
+        tmp = gapi.hangout.data.getValue(this.name);
+        if (tmp === null || tmp === undefined) {
+          this._currentValue = undefined;
+          this._loaded = true;
+          this._valueChanged();
+        } else {
+          try {
+            this._currentValue = JSON.parse(tmp);
+          } catch (err) {
+            this._currentValue = tmp;
+          }
+          this.value = this._currentValue;
+          this._loaded = true;
+        }
+
+        gapi.hangout.data.onStateChanged.add(function (e) {
+          var i;
+          if (e.addedKeys) {
+            for (i = 0; i < e.addedKeys.length; i++) {
+              if (e.addedKeys[i].key === this.name) {
+                try {
+                  this._currentValue = JSON.parse(e.addedKeys[i].value);
+                } catch (err) {
+                  this._currentValue = e.addedKeys[i].value;
+                }
+                this.value = this._currentValue;
+                break;
+              }
+            }
+          }
+          if (e.removedKeys) {
+            for (i = 0; i < e.removedKeys.length; i++) {
+              if (e.removedKeys[i] === this.name) {
+                this._currentValue = undefined;
+                this.value = undefined;
+                break;
+              }
+            }
+          }
+        }.bind(this));
+      }
+    });
+  </script>
+</dom-module>

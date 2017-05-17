@@ -1,0 +1,12 @@
+name: hangouts_api
+version: 0.3.0
+author: Gerwin Sturm <scarygami@gmail.com>
+description: Library to enable calls to the Google+ Hangouts API in Dart
+homepage: https://github.com/Scarygami/dart_hangouts_api
+environment:
+  sdk: '>=0.8.10+6 <2.0.0'
+dependencies:
+  browser: '>=0.9.0 <0.10.0'
+  googleapis_auth: '>=0.2.2 <0.3.0'
+dev_dependencies:
+  googleapis: '>=0.5.3 <0.6.0'

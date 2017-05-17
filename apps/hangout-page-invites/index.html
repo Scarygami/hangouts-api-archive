@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>Hangout Page Invites</title>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+
+  <link rel="import" href="bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+  <link rel="import" href="bower_components/paper-styles/paper-styles.html">
+
+  <link rel="import" href="bower_components/paper-header-panel/paper-header-panel.html">
+  <link rel="import" href="bower_components/paper-toolbar/paper-toolbar.html">
+
+  <style is="custom-style">
+    body {
+      background-color: white;
+    }
+
+    .app-name {
+      @apply(--paper-font-title);
+    }
+
+    .content {
+      @apply(--paper-font-body1);
+      padding: 0.5em 1em;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .instructions {
+      max-width: 50em;
+    }
+  </style>
+</head>
+<body class="fullbleed">
+  <paper-header-panel>
+    <paper-toolbar>
+      <div class="app-name">Hangout Page Invites</div>
+    </paper-toolbar>
+    <div class="content">
+      <div class="layout horizontal">
+        <div class="instructions">
+          <p>This simple hangout extensions allows you to create invite links
+          for Google+ pages to join your Hangout.</p>
+
+          <p>To install the extension use this link to open a Hangout
+          with the extension preloaded:</p>
+          <div class="g-hangout"
+            data-render="createhangout"
+            data-initial_apps="[{app_id : '1036828925371', app_type: 'LOCAL_APP'}]">
+          </div>
+
+          <p>The standard invite link for your Hangout will be filled automatically.</p>
+
+          <p>You can then search for Google+ pages by name and either copy the Invite Link
+          (right-click > copy link address) and send the link to a page manager using your
+          preferred communication method or use the G+ button to share the link with them.</p>
+
+          <p>You can also use the extension <a href="page-invites.html">outside of a Hangout</a>
+          but will have to enter your Hangout invite link manually.</p>
+        </div>
+        <div><img src="screenshot.png" alt="Screenshot"></div>
+      </div>
+    </div>
+  </paper-header-panel>
+</body>
+</html>

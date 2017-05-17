@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>Page Invites</title>
+
+  <script src="https://plus.google.com/talkgadget/apps/gadgets/js/rpc.js"></script>
+  <script src="https://plus.google.com/hangouts/_/api/v1/hangout.js"></script>
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+
+  <link rel="import" href="bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+  <link rel="import" href="bower_components/paper-styles/paper-styles.html">
+
+  <link rel="import" href="bower_components/paper-header-panel/paper-header-panel.html">
+  <link rel="import" href="bower_components/paper-toolbar/paper-toolbar.html">
+  <link rel="import" href="bower_components/paper-input/paper-input.html">
+
+  <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+  <link rel="import" href="bower_components/paper-icon-button/paper-icon-button">
+
+  <link rel="import" href="bower_components/hangout-app/hangout-app.html">
+  <link rel="import" href="bower_components/discovery-api-elements/discovery-api-elements.html">
+
+
+  <style is="custom-style">
+    body {
+      background-color: white;
+    }
+
+    .app-name {
+      @apply(--paper-font-title);
+    }
+
+    .content {
+      @apply(--paper-font-body1);
+      padding: 0.5em 1em;
+    }
+
+    .page {
+      margin-bottom: 0.5em;
+    }
+
+    .page:hover {
+      background-color: #EEE;
+    }
+
+    .page > * {
+      margin-right: 0.5em;
+    }
+
+    .profile {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+
+    .share {
+      width: 32px; height: 32px;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+  </style>
+</head>
+<body class="fullbleed">
+  <template is="dom-bind" id="app">
+
+    <hangout-app on-ready="hangoutAppReady"></hangout-app>
+
+    <discovery-api-elements
+      name="plus"
+      version="v1"
+      api-key="AIzaSyCXqeLjRUxdZvu4vnv_CoiVZ1O0ufdDOu0"
+    ></discovery-api-elements>
+
+    <plus-people-search
+      id="search"
+      query="{{query}}"
+      max-results="50"
+      response="{{result}}"
+    ></plus-people-search>
+
+    <paper-header-panel>
+      <paper-toolbar>
+        <div class="app-name">Hangout Page Invites</div>
+      </paper-toolbar>
+      <div class="content">
+        <paper-input label="Hangout Invite URL" value="{{baseUrl}}"></paper-input>
+        <div class="layout horizontal center">
+          <paper-input
+            label="Find pages"
+            value="{{query}}"
+            on-keydown="checkSearch"
+            class="flex"></paper-input>
+          <paper-icon-button on-click="search" icon="search"></paper-icon-button>
+        </div>
+        <template is="dom-repeat" items="[[result.items]]">
+          <div class="layout horizontal center page" hidden$="[[!isPage(item.objectType)]]">
+            <div><a href="[[item.url]]" target="_blank"><img src="[[item.image.url]]" class="profile"></a></div>
+            <div class="flex link"><a href="[[item.url]]" target="_blank">[[item.displayName]]</a></div>
+            <div><a href="[[inviteUrl(item.id, baseUrl)]]" target="_blank">Invite Link</a></div>
+            <div>
+              <a href="[[shareUrl(item.id, baseUrl)]]"
+                 target="_blank"
+                 onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+                 <img src="https://www.gstatic.com/images/icons/gplus-64.png"
+                      alt="Share on Google+"
+                      title="Share on Google+"
+                      class="share"></a>
+            </div>
+          </div>
+        </template>
+      </div>
+    </paper-header-panel>
+  </template>
+  <script src="page-invites.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Copyright (c) 2013 Gerwin Sturm, FoldedSoft e.U.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+-->
+<Module>
+  <ModulePrefs title="Draw Here">
+    <Require feature="dynamic-height"/>
+    <Require feature="rpc"/>
+  </ModulePrefs>
+  <Content type="html"><![CDATA[
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8">
+        <title>Draw Here</title>
+        <link rel="stylesheet" type="text/css" href="%YOUR_PATH%/css/drawhere.css">
+        <script src="//talkgadget.google.com/hangouts/_/api/hangout.js?v=1.4"></script>
+        <script src="%YOUR_PATH%/scripts/jscolor/jscolor.js"></script>
+      </head>
+      <body>
+        <div id="drawhere">
+          <div id="dredit">
+            <div id="drwrapper">
+              <div id="drcanvasback">Draw Here</div>
+              <div id="drimagediv">
+                <img id="drimage" src="">
+              </div>
+              <canvas id="drcanvas"></canvas>
+              <canvas id="drawcanvas"></canvas>
+            </div>
+            <div id="drtools">
+              <div class="drtoolpart">
+                <div class="tool tool_paint tool_selected" title="Draw"></div>
+                <div class="tool tool_line" title="Line"></div>
+                <div class="tool tool_square" title="Rectangle"></div>
+                <div class="tool tool_circle" title="Ellipse"></div>
+                <div class="tool tool_erase" title="Erase"></div><br>
+                <div class="tool tool_undo" title="Undo"></div>
+                <div class="tool tool_clear" title="Clear"></div>
+                <div class="tool" style="visibility: hidden;"></div>
+                <div class="tool" style="visibility: hidden;"></div>
+                <div class="tool tool_showimg" id="drshowimg" title="Show Image" style="display: none;"></div>
+                <div class="tool tool_hideimg" id="drhideimg" title="Hide Image" style="display: none;"></div>
+              </div>
+              <div class="drtoolpart">
+                <table>
+                  <tr style="vertical-align: middle;">
+                    <td><input id="color" class="color" value="00FF00" title="Line color"></td>
+                    <td><input id="dropacity" type="range" min="0" max="100" value="100" title="Opacity" class="opacity"></td>
+                    <td><input id="drsize" type="range" min="0" max="100" value="50" title="Line width"></td>
+                  </tr>
+                  <tr style="vertical-align: middle;">
+                    <td><input id="fillcolor" class="color" value="FFFFFF" title="Fill color"></td>
+                    <td><input id="fillopacity" type="range" min="0" max="100" value="0" title="Opacity" class="opacity"></td>
+                    <td></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="drtoolpart">
+                <div id="example_background">Preview</div>
+                <div id="example" title="preview"></div>
+              </div>
+            </div>
+            <canvas id="drcursor" width="60" height="60" style="display: none;"></canvas>
+            <div id="drcredits">
+              Developed by <a href="https://plus.google.com/112336147904981294875" target="_blank">Gerwin Sturm</a> / <a href="http://www.allmyplus.com/drawhere" target="_blank">More information</a>
+            </div>
+          </div>
+          <div id="drslider"></div>
+        </div>
+        <script src="%YOUR_PATH%/scripts/drawhere.js"></script>
+      </body>
+    </html>
+  ]]></Content>
+</Module>

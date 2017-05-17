@@ -1,0 +1,27 @@
+html { box-sizing: border-box; }
+*, *:before, *:after { box-sizing: inherit; }
+
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#background {
+  width: 320px;
+  height: 100%;
+  overflow: hidden;
+  padding: 10px;
+  text-align: center;
+  background-color: #CCC;
+}
+
+#current {
+  max-width: 300px;
+  max-height: 200px;
+}
+
+#slider {
+  vertical-align: text-bottom;
+}

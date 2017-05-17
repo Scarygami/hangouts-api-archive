@@ -1,0 +1,31 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../hangout-app.html">
+<link rel="import" href="../hangout-shared-state.html">
+
+<dom-module id="demo-hangout-app">
+  <template>
+    <hangout-app on-ready="readyCallback">
+      <b>Polymer Hangout App</b><br><br>
+      <hangout-shared-state name="count" value="{{count}}"></hangout-shared-state>
+      <button on-click="click">Click me!</button> <b>[[count]]</b>
+    </hangout-app>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'demo-hangout-app',
+      properties: {
+        count: {
+          type: Number,
+          value: 0
+        }
+      },
+      readyCallback: function () {
+        console.log('demo-hangout-app ready');
+      },
+      click: function () {
+        this.count = (this.count || 0) + 1;
+      }
+    });
+  </script>
+</dom-module>

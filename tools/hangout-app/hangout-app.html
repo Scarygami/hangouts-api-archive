@@ -1,0 +1,109 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
+
+<link rel="import" href="hangout-shared-state.html">
+
+<!--
+Makes Hangout App development easier.
+Waits for the Hangouts API to be ready before firing a `ready` event.
+To use it just include the `hangout-app` element in your project.
+If you put content in the `hangout-app` element it won't be rendered/attached
+until the Hangout API is ready.
+
+##### Example
+
+    <hangout-app>
+        <div>My Hangout App</div>
+    </hangout-app>
+
+You will need several files to run the Hangout App.
+
++  A website including your code and the hangout-app element and the Hangout JS scripts:
+   [(sample)](https://github.com/Scarygami/hangout-app/blob/master/demo_hangout.html)
+
+
+    <script src="//plus.google.com/talkgadget/apps/gadgets/js/rpc.js"></script>
+    <script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
+
++  A gadget-xml file, that loads your website in an iFrame and links it to the Hangout.
+   You can create one via [hangoutiframer](https://hangoutiframer.appspot.com/static/help.html)
+   or make a copy of [demo_hangout.xml](https://github.com/Scarygami/hangout-app/blob/master/demo_hangout.xml)
+   and adjust the URL in line 28 accordingly
+
+You then have to follow the [official instructions](https://developers.google.com/+/hangouts/running)
+to enable your application.
+
+@element hangout-app
+@blurb Element making Hangout App development easier.
+@status alpha
+@homepage https://scarygami.github.io/hangout-app
+@demo
+-->
+
+<dom-module id="hangout-app">
+  <template>
+    <div class="fit">
+      <template is="dom-if" if="[[loaded]]">
+        <content></content>
+      </template>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'hangout-app',
+
+      /**
+       * Fired when the Hangouts API is ready to be used
+       *
+       * @event ready
+       */
+
+      properties: {
+        /**
+         * `loaded` is set to true once everything is ready.
+         */
+        loaded: {
+          type: Boolean,
+          value: false,
+          notify: true,
+          readOnly: true
+        },
+
+        /**
+         * Enable console log messages
+         */
+        debug: {
+          type: Boolean,
+          value: false
+        }
+      },
+
+      attached: function () {
+        var interval = window.setInterval(function () {
+          // Make sure all scripts are loaded
+          if (
+            gapi && gapi.hangout &&
+            gapi.hangout.onApiReady &&
+            gadgets && gadgets.rpc
+          ) {
+            window.clearInterval(interval);
+            if (this.debug) {
+              console.log('Hangouts Library loaded');
+            }
+
+            gapi.hangout.onApiReady.add(function (event) {
+              if (event.isApiReady) {
+                if (this.debug) {
+                  console.log('Hangouts API Ready');
+                }
+                this._setLoaded(true);
+                this.fire('ready', {hapi: gapi.hangout});
+              }
+            }.bind(this));
+          }
+        }.bind(this), 10);
+      }
+    });
+  </script>
+</dom-module>

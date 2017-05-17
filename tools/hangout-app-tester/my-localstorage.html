@@ -1,0 +1,31 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-localstorage/core-localstorage.html">
+
+<!--
+Extending `core-localstorage` with a listener for external changes.
+-->
+<polymer-element name="my-localstorage" extends="core-localstorage" hidden>
+  <script>
+    (function (global) {
+      
+      Polymer('my-localstorage', {
+
+        ready: function () {
+          global.addEventListener("storage", this.storageChanged.bind(this), false);
+        },
+
+        /**
+         * Fired when the value in local storage has been changed externally.
+         * @event core-localstorage-load
+         */
+
+        storageChanged: function (e) {
+          if (e.key == this.name) {
+            this.load();
+            this.asyncFire('my-localstorage-changed');
+          }
+        }
+      });
+    }(this));
+  </script>
+</polymer-element>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Slider</title>
+    <style>
+      html {
+        box-sizing: border-box;
+      }
+      body {
+        background: #181818;
+        color: #A1A1A1;
+        text-align: center;
+        padding: 5px;
+      }
+      *, *:before, *:after {
+        box-sizing: inherit;
+      }
+      table {
+        margin: auto;
+      }
+      td {
+        text-align: center; border: 0;
+        width: 50px; max-width: 50px; min-width: 50px;
+        height: 50px; max-height: 50px; min-height: 50px;
+      }
+      td button { width: 100%; height: 100%;}
+
+      #canvas {
+        width: 100%;
+      }
+    </style>
+    <script src="https://plus.google.com/talkgadget/apps/gadgets/js/rpc.js"></script>
+    <script src="https://plus.google.com/hangouts/_/api/dev/hangout.js"></script>
+  </head>
+  <body>
+    <div>Sliding puzzle</div>
+
+    <table>
+      <tr><td></td><td><button id="up">Up</button></td><td></td></tr>
+      <tr><td><button id="left">Left</button></td><td></td><td><button id="right">Right</button></td></tr>
+      <tr><td></td><td><button id="down">Down</button></td><td></td></tr>
+      <tr><td colspan="3"><button id="shuffle">Shuffle</button></td></tr>
+    </table>
+
+    <div>Currently solving</div>
+    <div id="canvas"></div>
+    <script src="slider.js"></script>
+  </body>
+</html>

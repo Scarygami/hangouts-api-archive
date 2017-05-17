@@ -1,0 +1,8 @@
+html, body, .extension {
+  height: 100%
+}
+
+.extension {
+  overflow-y: auto;
+  overflow-x: hidden;
+}

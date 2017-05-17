@@ -1,0 +1,296 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../font-roboto/roboto.html">
+<link rel="import" href="../paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../paper-shadow/paper-shadow.html">
+<link rel="import" href="../core-label/core-label.html">
+<link rel="import" href="../core-icon/core-icon.html">
+<link rel="import" href="../core-icons/av-icons.html">
+<link rel="import" href="my-localstorage.html">
+
+<!--
+Offline testing of Hangout apps.
+Easiest to use with Hangout apps developed in Polymer, preferrably using the
+`hangout-app` element, because then you only need to include your element in
+a test page.
+
+You can also include all your Hangout app code inside of the
+`hangout-app-tester` element.
+
+##### Example
+
+    <hangout-app-tester>
+      <my-hangout-app></my-hangout-app>
+    </hangout-app-tester>
+
+@element hangout-app-tester
+@blurb Offline testing of Hangout apps
+@status alpha
+@homepage https://scarygami.github.io/hangout-app-tester
+-->
+<polymer-element name="hangout-app-tester" attributes="extension">
+  <template>
+    <style>
+      :host {
+        display: block;
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+      }
+    
+      #controls {
+        font-family: RobotoDraft, 'Helvetica Neue', Helvetica, Arial;
+        position: absolute;
+        bottom: 5px;
+        left: 5px;
+        border-radius: 5px;
+        background-color: yellow;
+        padding: 20px;
+      }
+      
+      core-label span {
+        cursor: pointer;
+      }
+      
+      paper-checkbox {
+        margin-right: 20px;
+      }
+    
+      #app {
+        position: absolute;
+        padding: 0;
+        bottom: 0;
+        top: 0;
+        right: 0;
+        width: 100%;
+        transition: width ease 0.28s;
+        background-color: white;
+      }
+      
+      #app[extension] {
+        width: 300px;
+      }
+      
+      #hangout {
+        position: absolute;
+        padding: 0;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 100%;
+        transition: right ease 0.28s;
+        background-color: black;
+      }
+      
+      #hangout[extension] {
+        right: 300px;
+      }
+      
+      #video {
+        position: absolute;
+        background-color: #333;
+        top: 20px;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+      }
+      
+      #video core-icon {
+        color: #999;
+        width: 100%;
+        height: 100%;
+      }
+      
+      #app {
+    </style>
+    <my-localstorage
+      name="sharedState" value="{{sharedState}}"
+      on-my-localstorage-changed="{{updateState}}"
+      on-core-localstorage-load="{{initialLoad}}"
+    ></my-localstorage>
+    <my-localstorage name="participants" value="{{participants}}"></my-localstorage>
+    <div id="hangout" extension?="{{extension}}">
+      <div id="video" fit>
+        <core-icon icon="av:videocam"></core-icon>
+      </div>
+    </div>
+    <div id="app" extension?="{{extension}}">
+      <content></content>
+    </div>
+    <paper-shadow id="controls" z="3">
+      <core-label horizontal layout id="extension-label">
+        <paper-checkbox
+          checked="{{extension}}"
+          for role="checkbox"
+          tabindex="0"
+          aria-checked="{{extension}}"
+          aria-labelledby="extension-label"></paper-checkbox>
+        <span>Extension mode</span>
+      </core-label>
+    </paper-shadow>
+  </template>
+  <script>
+    (function (global) {
+
+      function clone(obj) {
+        var copy, key;
+        if (obj == null || typeof(obj) != 'object') {
+          return obj;
+        }
+        copy = new obj.constructor();
+        for (key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            copy[key] = clone(obj[key]);
+          }
+        }
+        return copy;
+      }
+
+      function HangoutApi(parent) {
+        
+        function ApiReadyEvent() {
+          
+          var response = {
+            isApiReady: true
+          };
+          
+          this.add = function (callback) {
+            // Return event after a timeout
+            global.setTimeout(function () {
+              callback(response);
+            }, 100);
+          };
+        }
+        
+        function Data() {
+          var state = {};
+          var metadata = {};
+
+          function StateChangedEvent() {
+            var callbacks = [];
+
+            this.add = function (callback) {
+              if (callbacks.indexOf(callback) < 0) {
+                callbacks.push(callback);
+              }
+            };
+            
+            this.remove = function (callback) {
+              var i = callbacks.indexOf(callback);
+              if (i < 0) { return; }
+              callbacks.splice(i, 1);
+            }
+            
+            this.trigger = function (data) {
+              callbacks.forEach(function (callback) {
+                global.setTimeout(function () {
+                  callback(data)
+                }, 100);
+              });
+
+              parent.sharedState = clone(state);
+            }
+          }
+          
+          this.clearValue = function (key) {
+            state[key] = undefined;
+            this.onStateChanged.trigger({
+              addedKeys: [],
+              metadata: metadata,
+              removedKeys: [key],
+              state: state
+            });
+          }
+          
+          this.getValue = function (key) {
+            return state[key];
+          };
+          
+          this.getState = function () {
+            return state;
+          };
+          
+          this.setValue = function (key, value) {
+            if (state[key] == value) { return; }
+            state[key] = value;
+            this.onStateChanged.trigger({
+              addedKeys: [{
+                key: key,
+                value: value
+              }],
+              metadata: metadata,
+              removedKeys: [],
+              state: state
+            });
+          };
+          
+          this.updateState = function (newState) {
+            var key, addedKeys = [], removedKeys = [];
+            for (key in state) {
+              if (state.hasOwnProperty(key) && !newState[key]) {
+                removedKeys.push(key);
+                state[key] = undefined;
+              }
+            }
+            for (key in newState) {
+              if (newState.hasOwnProperty(key)) {
+                 if (state[key] != newState[key] && newState[key]) {
+                   state[key] = newState[key];
+                   addedKeys.push({
+                     key: key,
+                     value: newState[key]
+                   });
+                 }
+              }
+            }
+            if (addedKeys.length > 0 || removedKeys.length > 0) {
+              this.onStateChanged.trigger({
+                addedKeys: addedKeys,
+                metadata: metadata,
+                removedKeys: removedKeys,
+                state: state
+              });
+            }
+          };
+          
+          this.onStateChanged = new StateChangedEvent();
+        }
+        
+        this.onApiReady = new ApiReadyEvent();
+        this.data = new Data();
+      }
+      
+      Polymer('hangout-app-tester', {
+        /**
+         * Set `extension` to true to render the hangout app in a side bar.
+         *
+         * @property extension
+         * @type bool
+         */
+        extension: false,
+        
+        initialized: false,
+
+        ready: function () {
+          global.gadgets = global.gadgets || {};
+          global.gadgets.rpc = global.gadgets.rpc || true;
+          global.gapi = global.gapi || {};
+          global.gapi.hangout = new HangoutApi(this);
+        },
+        
+        initialLoad: function () {
+          if (this.initialized) { return; }
+          this.initialized = true;
+          this.updateState();
+        },
+        
+        updateState: function () {
+          global.gapi.hangout.data.updateState(this.sharedState);
+        }
+      });
+    }(this));
+  </script>
+</polymer-element>

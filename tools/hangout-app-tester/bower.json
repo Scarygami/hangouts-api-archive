@@ -1,0 +1,23 @@
+{
+  "name": "hangout-app-tester",
+  "version": "0.0.1",
+  "authors": [
+    "Gerwin Sturm <scarygami@gmail.com>"
+  ],
+  "description": "Offline testing of hangout-app components",
+  "keywords": "polymer, web-components, hangout, testing",
+  "main": "hangout-app-tester.html",
+  "license": "Apache 2.0",
+  "homepage": "https://github.com/Scarygami/hangout-app-tester/",
+  "ignore": [
+    "**/.*"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^0.5.1",
+    "webcomponentsjs": "Polymer/webcomponentsjs#^0.5.1",
+    "hangout-app": "Scarygami/hangout-app#^0.1.0",
+    "paper-checkbox": "Polymer/paper-checkbox#^0.5.1",
+    "paper-shadow": "Polymer/paper-shadow#^0.5.1",
+    "core-localstorage": "Polymer/core-localstorage#^0.5.1"
+  }
+}
